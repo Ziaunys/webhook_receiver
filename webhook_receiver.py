@@ -13,7 +13,7 @@ class WebhookReceiver(object):
 
     plugins = []
 
-    def send_events(self, event):
+    def dispatch(self, event):
         for plugin in self.plugins:
             plugin().output(event)
 
@@ -24,7 +24,7 @@ class WebhookReceiver(object):
     @app.route('/', methods=['POST'])
     def receive_hook(self):
         payload = json.loads(request.data)
-        self.send_events(payload)
+        self.dispatch(payload)
 
 
 @WebhookReceiver.plugin
